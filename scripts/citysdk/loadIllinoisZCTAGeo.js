@@ -104,25 +104,28 @@ async function processData() {
   //   postal_code: d.properties.ZCTA5CE10
   // }));
 
-  const IllinoisZCTAGeo = IllinoisZCTARawGeo.map(d => {
-    const geocode = IllinoisCountyLookup.results.find(
-      c => c.query.postal_code === d.properties.ZCTA5CE10
-    );
+  const IllinoisZCTAGeo = {
+    type: 'FeatureCollection',
+      features: IllinoisZCTARawGeo.map(d => {
+      const geocode = IllinoisCountyLookup.results.find(
+        c => c.query.postal_code === d.properties.ZCTA5CE10
+      );
 
-    const demographics = IllinoisZCTARawData.find(
-      z => z.zip === d.properties.ZCTA5CE10
-    );
+      const demographics = IllinoisZCTARawData.find(
+        z => z.zip === d.properties.ZCTA5CE10
+      );
 
-    d.properties.city = geocode.response.results[0].address_components.city;
-    d.properties.county = geocode.response.results[0].address_components.county.replace(
-      " County",
-      ""
-    );
+      d.properties.city = geocode.response.results[0].address_components.city;
+      d.properties.county = geocode.response.results[0].address_components.county.replace(
+        " County",
+        ""
+      );
 
-    d.properties.census_demographics = demographics;
+      d.properties.census_demographics = demographics;
 
-    return d;
-  });
+      return d;
+    })
+  };
 
   if (IllinoisZCTAGeo) {
     await writeJSONData('IllinoisZCTAGeo', IllinoisZCTAGeo);

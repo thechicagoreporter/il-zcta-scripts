@@ -4,6 +4,43 @@ These scripts automate calls to CitySDK for Zip Code Tabulation Area US Census d
 
 The final output is a GeoJSON file with attached Census data and additional geographic data from Geocod.io.
 
+The added data, attached to each ZCTA's `properties`, looks something like the snippet below. The `E`, `M`, `P`, and `PM` variables correspond to Census estimates, margin of error, percent, and percent margin of error, respectively. 
+
+```
+{
+  "ZCTA5CE10": "62040",
+  ...
+  "city": "Granite City",
+  "county": "Madison",
+  "census_demographics": {
+    "zip": "62040",
+    "Race": {
+      "Black": {
+        "PM": 0.011000000000000001,
+        "E": 2498,
+        "PE": 0.059000000000000004,
+        "M": 468
+      },
+      "Hispanic": {
+        "PE": 0.066,
+        "E": 2800,
+        "PM": 0.013000000000000001,
+        "M": 538
+      },
+      ...
+    },
+    "Population": {
+      "Total": {
+        "M": 588,
+        "PM": -8888888.88,
+        "PE": 424.47,
+        "E": 42447
+      }
+    }
+  }
+}
+```
+
 # Requirements
 
 * NodeJS
@@ -28,12 +65,13 @@ STATS_KEY=<YOUR CENSUS API KEY>
 npm start
 ```
 
-Data files will be written to the `data` directory.
+Data files are written to the `data` directory.
 
-# Output
+# Output files
 
-* `data/rawZCTAData.json`
-* `data/rawZCTAGeo.json`
+* `data/rawZCTAData.json`: Just the Census variables.
+* `data/rawZCTAGeo.json`: Just the ZCTA boundaries (GeoJSON).
+* `data/IllinoisZCTAGeo.json`: ZCTA boundaries joined with Census variables (GeoJSON).
 
 # How it works
 
