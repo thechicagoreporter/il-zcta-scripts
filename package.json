@@ -16,7 +16,7 @@
   "license": "MIT",
   "dependencies": {
     "citysdk": "^2.1.0",
-    "d3": "^5.16.0",
+    "d3": "^7.6.1",
     "d3-array": "^2.4.0",
     "dotenv": "^8.2.0",
     "lodash": "^4.17.15",
